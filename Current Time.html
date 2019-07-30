@@ -1,0 +1,46 @@
+<!-- This task requires us to get the current time, and update it every second -->
+
+<!-- Specify our doctype and language -->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!-- Snazzy title -->
+        <title>Our Time</title>
+
+        <!-- Our javascript body -->
+        <script type="text/javascript">
+            // Utility function to add zeroes to our times
+            const addZeroes = time => ('0' + time).slice(-2)
+
+            // Function which we call every second to update the time
+            const updateTime = () => {
+                // If no interval started, then start the interval, with 1s timing gap
+                if(!window.startedInterval) {
+                    window.startedInterval = true
+                    setInterval(updateTime, 1000)
+                }
+
+                // Get today's date and time
+                const today = new Date()
+
+                // Get hours, minutes and seconds
+                const h = addZeroes(today.getHours()),
+                    m = addZeroes(today.getMinutes()),
+                    s = addZeroes(today.getSeconds())
+
+                // Update the document body text
+                document.body.innerText = `${h}:${m}:${s}`
+            }
+
+            // When window loads, start updating
+            window.onload = updateTime
+
+        </script>
+    </head>
+
+    <body>
+
+    </body>
+
+</html>

@@ -1,0 +1,57 @@
+<!-- In this task we have to populate our web page with Chuck Norris jokes -->
+
+<!-- Declare document type and language -->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!-- Simple title -->
+        <title>Chucky</title>
+
+        <!-- Our main javascript container -->
+        <script type="text/javascript">
+            // Our asynchronous HTTP get function, using a promise
+            // Takes a URL as an argument and returns a new Promise
+            const httpGetAsync = theUrl => new Promise((res, rej) => {
+                // Store our XML HTTP request in a variable
+                const xmlHttp = new XMLHttpRequest();
+
+                // When ready, calls this callback
+                xmlHttp.onreadystatechange = function () {
+                    if(xmlHttp.readyState == 4) {
+                        if(xmlHttp.status == 200) {
+                            // When successful request, resolve promise
+                            res(xmlHttp.responseText);
+                        } else {
+                            // When unsuccesful request, reject promise
+                            rej(xmlHttp.statusText)
+                        }
+                    }
+                }
+
+                // Open and send the request
+                xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+                xmlHttp.send(null);
+            })
+
+        </script>
+    </head>
+
+    <body>
+        <!-- Body code -->
+        <script type="text/javascript">
+            // Call our httpGetAsync promise we made above
+            // Since it's a promise we use .then() to handle returned data
+            httpGetAsync("https://api.icndb.com/jokes/random/3?escape")
+                .then(JSON.parse)
+                .then(json => json.value)
+                .then(jokes => {
+                    for(const joke of jokes) {
+                        document.write(`Joke #${joke.id}: ${joke.joke}<br/>`)
+                    }
+                })
+
+        </script>
+    </body>
+
+</html>
